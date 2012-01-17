@@ -122,9 +122,9 @@ var ui = (function() {
 
 	function toggle_options_popup() {
 		if(timer.is_running()) return;
+		toggle(times_label);
 		toggle($('options_popup'));
-		toggle($('gray_out')); 
-		centre($('options_popup'));
+		//toggle($('gray_out')); 
 	}
 
 	function toggle_solve_popup(index) {
@@ -290,8 +290,8 @@ var ui = (function() {
               'session average: <span id="s_a"></span>, mean: <span id="s_m"></span></span></div>'+
               '<span class="a"><span id="toggle_stats">hide stats</span> | <span id="options_label">options</span></span></div></div>'+
 
-              '<div id="right"><div id="times_label" class="hide_running a"></div></div>'+
-              '<div id="options_popup" style="display: none;" class="popup"><h2>options</h2>'+
+              '<div id="right"><div id="times_label" class="hide_running a"></div>'+
+              '<div id="options_popup" style="display: none;"><h2>options</h2>'+
               '<p><select id="scramble_menu"></select></p>'+
               '<p><input type="input" id="plugin_url" /><input type="submit" onclick="ui.load_plugin()" value="load"/>'+
               '<div id="info"></div></p><h3>timer</h3>'+
@@ -300,7 +300,7 @@ var ui = (function() {
               '<h3>session</h3>'+
               '<p><input type="submit" id="save_btn" value="save" /> <input type="submit" id="load_btn" value="load" /></p>'+
               '<p><input type="checkbox" id="auto_save"><label for="auto_save">automatically save/load</label></p>'+
-              '<span class="a"><span id="close_options">close</span></span></div>'+
+              '<span class="a"><span id="close_options">close</span></span></div></div>'+
 
               '<div id="solve_popup" style="display: none;" class="popup">'+
               '<h3>solve <span id="solve_popup_index"></span></h3>'+

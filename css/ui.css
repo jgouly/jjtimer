@@ -63,13 +63,24 @@ h2, h3 {
 	display: none;
 }
 
+<<<<<<< HEAD
+
+#options, #solve_popup, #avg_popup {
+=======
 .popup {
+>>>>>>> c5193d8027f9f233ba41f077e2b4493aedb3c7a3
 	z-index: 6;
 	position: absolute;
 	background-color: #fff;
 	border: 1px solid #ddd;
+<<<<<<< HEAD
+	padding: 5px;
+	top:50%;
+	left:50%;
+=======
 	top: 50%;
 	left: 50%;
+>>>>>>> c5193d8027f9f233ba41f077e2b4493aedb3c7a3
 	padding: 1%;
 	display: none;
 	box-shadow: 1px 2px 1px #888;

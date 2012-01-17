@@ -13,7 +13,7 @@ var ui = (function() {
 	function is_visible(e) { return e.style.display !== "none"; }
 
 	var timer_label, scramble_label, stats_label, options_label, to_hide;
-	var update_timer, inspection_timer, inspection_count = 15;
+	var update_timer; //, inspection_timer, inspection_count = 15;
 	var config;
 
 	function human_time(time) {
@@ -49,7 +49,7 @@ var ui = (function() {
 		return out;
 	}
 
-	function on_inspection() {
+	function on_inspection(inspection_count) {
 		timer_label.style.color = "red";
 		if(inspection_count > 0) {
 			t(timer_label, inspection_count);
@@ -60,8 +60,6 @@ var ui = (function() {
 		else {
 			t(timer_label, "DNF");
 		}
-		inspection_count -= 1;
-		inspection_timer = setTimeout(on_inspection, 1000);
 	}
 
 	function next_scramble()
@@ -115,7 +113,7 @@ var ui = (function() {
 		}
 	}
 
-	function centre(el) {
+	function center(el) {
 		el.style.marginLeft = (el.offsetWidth / -2) + "px";
 		el.style.marginTop = (el.offsetHeight / -2) + "px";
 	}
@@ -124,7 +122,7 @@ var ui = (function() {
 		if(timer.is_running()) return;
 		toggle($('options_popup'));
 		toggle($('gray_out')); 
-		centre($('options_popup'));
+		center($('options_popup'));
 	}
 
 	function toggle_solve_popup(index) {
@@ -148,7 +146,8 @@ var ui = (function() {
 		}
 		toggle($('solve_popup'));
 		toggle($('gray_out'));
-		centre($('solve_popup'));
+
+		center($('solve_popup'));
 	}
 
 	function toggle_avg_popup(index, end) {
@@ -164,7 +163,8 @@ var ui = (function() {
 		}
 		toggle($('avg_popup'));
 		toggle($('gray_out'));
-		centre($('avg_popup'));
+		
+		center($('avg_popup'));
 	}
 
 	function toggle_popup() {
@@ -219,7 +219,6 @@ var ui = (function() {
 
 	on_running: function() {
 		timer_label.style.color = "black";
-		clearTimeout(inspection_timer);
 		update_timer = setInterval(ui.update_running, 10);
 		for(var i = 0; i < to_hide.length; i++)
 		{
@@ -234,17 +233,6 @@ var ui = (function() {
 	on_stop: function() {
 		clearInterval(update_timer);
 		t(timer_label, human_time(timer.get_time()));
-		if(timer.use_inspection()) {
-			if(inspection_count < 0) {
-				if(inspection_count >= -2) {
-					session.toggle_plus_two(null);
-				}
-				else {
-					session.toggle_dnf(null);
-				}
-			}
-			inspection_count = 15;
-		}
 		for(var i = 0; i < to_hide.length; i++)
 		{
 			to_hide[i].className = to_hide[i].className.substr(0, to_hide[i].className.length-2);
@@ -435,9 +423,9 @@ var ui = (function() {
 		window.onblur = function() { timer_label.style.color="gray"; };
 		window.onfocus = function() { timer_label.style.color="black"; };
 		window.onresize= function() {
-			centre($('options_popup'));
-			centre($('solve_popup'));
-			centre($('avg_popup'));
+			center($('options_popup'));
+			center($('solve_popup'));
+			center($('avg_popup'));
 		}
 	}
 	};

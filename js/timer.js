@@ -2,11 +2,13 @@ var timer = function() {
 	var state, Waiting = 0, Inspecting = 1, Ready = 2, Running = 3, Delay = 4;
 	var start_time, end_time, solve_time;
 	var use_inspection = false;
+	var inspection_timer, inspection_count = 15;
 
 	function set_running() {
 		solve_time = undefined;
 		start_time = new Date();
 		state = Running;
+		clearTimeout(inspection_timer);
 		ui.on_running();
 	}
 
@@ -15,18 +17,29 @@ var timer = function() {
 		state = Delay;
 		solve_time = end_time.getTime() - start_time.getTime();
 		session.add(solve_time, scramble_manager.last_scramble());
+		if(use_inspection && inspection_count < 0) {
+			if(inspection_count >= -2) {
+				session.toggle_plus_two(null);
+			}
+			else {
+				session.toggle_dnf(null);
+			}
+			inspection_count = 15;
+		}
 		ui.on_stop();
 		setTimeout(function() { state = Waiting; }, 500);
+	}
+
+	function set_inspection() {
+		ui.on_inspection(inspection_count);
+		inspection_count -= 1;
+		inspection_timer = setTimeout(set_inspection, 1000);
 	}
 
 	return {
 		reset: function() {
 			state = Waiting;
 			session.reset();
-		},
-
-		use_inspection: function() {
-			return use_inspection;
 		},
 
 		toggle_inspection: function() {
@@ -47,7 +60,7 @@ var timer = function() {
 			if(use_inspection && Waiting === state)
 			{
 				state = Inspecting;
-				ui.on_inspection();
+				set_inspection();
 			}
 			else if(Ready === state) {
 				set_running();

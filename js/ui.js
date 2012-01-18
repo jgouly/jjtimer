@@ -10,6 +10,7 @@ function t(e, t) { e.innerHTML = t; }
 
 var ui = (function() {
 	function toggle(e) { e.style.display = (e.style.display === "none") ? "inline" : "none"; }
+	function toggle_block(e) { e.style.display = (e.style.display === "none") ? "" : "none"; }
 	function is_visible(e) { return e.style.display !== "none"; }
 
 	var timer_label, scramble_label, stats_label, options_label, to_hide;
@@ -122,9 +123,8 @@ var ui = (function() {
 
 	function toggle_options_popup() {
 		if(timer.is_running()) return;
-		toggle(times_label);
-		toggle($('options_popup'));
-		//toggle($('gray_out')); 
+		toggle_block(times_label);
+		toggle_block($('options_popup'));
 	}
 
 	function toggle_solve_popup(index) {
@@ -291,7 +291,7 @@ var ui = (function() {
               '<span class="a"><span id="toggle_stats">hide stats</span> | <span id="options_label">options</span></span></div></div>'+
 
               '<div id="right"><div id="times_label" class="hide_running a"></div>'+
-              '<div id="options_popup" style="display: none;"><h2>options</h2>'+
+              '<div id="options_popup" style="display: none;"><h3>options</h3>'+
               '<p><select id="scramble_menu"></select></p>'+
               '<p><input type="input" id="plugin_url" /><input type="submit" onclick="ui.load_plugin()" value="load"/>'+
               '<div id="info"></div></p><h3>timer</h3>'+
@@ -433,7 +433,6 @@ var ui = (function() {
 		window.onblur = function() { timer_label.style.color="gray"; };
 		window.onfocus = function() { timer_label.style.color="black"; };
 		window.onresize= function() {
-			centre($('options_popup'));
 			centre($('solve_popup'));
 			centre($('avg_popup'));
 		}

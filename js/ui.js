@@ -291,8 +291,8 @@ var ui = (function() {
               '<span class="a"><span id="toggle_stats">hide stats</span> | <span id="options_label">options</span></span></div></div>'+
 
               '<div id="right"><div id="times_label" class="hide_running a"></div>'+
-              '<div id="options_popup" style="display: none;"><h3>options</h3>'+
-              '<p><select id="scramble_menu"></select></p>'+
+              '<div id="options_popup" style="display: none;"><h2>options</h2>'+
+              '<p>puzzle: <select id="scramble_menu"></select></p>'+
               '<p><input type="input" id="plugin_url" /><input type="submit" onclick="ui.load_plugin()" value="load"/>'+
               '<div id="info"></div></p><h3>timer</h3>'+
               '<p><input type="checkbox" id="use_inspection"><label for="use_inspection">use inspection</label>'+

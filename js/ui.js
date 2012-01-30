@@ -212,23 +212,24 @@ var ui = (function() {
 		localStorage.setItem("ui.config", JSON.stringify(config));
 	}
 
-	function load_colours() {
+	function load_user_styles() {
 		var styles = "";
-		if(config['ui_bg_colour']) {
-			styles += "#left, #right, .popup { background-color: " + config['ui_bg_colour'] + ";}";
-			$('ui_bg_colour').value = config['ui_bg_colour'];
+		var ui_styles = config['ui'];
+		if(ui_styles['bg_colour']) {
+			styles += "#left, #right, .popup { background-color: " + ui_styles['bg_colour'] + ";}";
+			$('ui_bg_colour').value = ui_styles['bg_colour'];
 		}
-		if(config['ui']['text_color']) {
-			styles += "body { color: " + config['ui']['text_color'] + ";}";
-			$('ui_text_colour').value = config['ui']['text_color'];
+		if(ui_styles['text_color']) {
+			styles += "body { color: " + ui_styles['text_color'] + ";}";
+			$('ui_text_colour').value = ui_styles['text_color'];
 		}
-		if(config['ui_link_colour']) {
-			styles += "a { color: " + config['ui_link_colour'] + ";}";
-			$('ui_link_colour').value = config['ui_link_colour'];
+		if(ui_styles['link_colour']) {
+			styles += "a { color: " + ui_styles['link_colour'] + ";}";
+			$('ui_link_colour').value = ui_styles['link_colour'];
 		}
-		if(config['ui_highlight_colour']) {
-			styles += ".highlighted { background-color: " + config['ui_highlight_colour'] + ";}";
-			$('ui_highlight_colour').value = config['ui_highlight_colour'];
+		if(ui_styles['highlight_colour']) {
+			styles += ".highlighted { background-color: " + ui_styles['highlight_colour'] + ";}";
+			$('ui_highlight_colour').value = ui_styles['highlight_colour'];
 		}
 		t($('user_styles'), styles);
 	}
@@ -379,24 +380,27 @@ var ui = (function() {
 			};
 
 			$('ui_bg_colour').onchange = function() {
-				config['ui_bg_colour'] = $('ui_bg_colour').value;
-				load_colours();
+				config['ui']['bg_colour'] = $('ui_bg_colour').value;
+				load_user_styles();
 			};
 			$('ui_text_colour').onchange = function() {
 				config['ui']['text_color'] = $('ui_text_colour').value;
-				load_colours();
+				load_user_styles();
 			};
 			$('ui_link_colour').onchange = function() {
-				config['ui_link_colour'] = $('ui_link_colour').value;
-				load_colours();
+				config['ui']['link_colour'] = $('ui_link_colour').value;
+				load_user_styles();
 			};
 			$('ui_highlight_colour').onchange = function() {
-				config['ui_highlight_colour'] = $('ui_highlight_colour').value;
-				load_colours();
+				config['ui']['highlight_colour'] = $('ui_highlight_colour').value;
+				load_user_styles();
 			};
 
 			$('options-ui-reset').onclick = function() {
-				delete config['ui'];
+				config['ui'] = {};
+				timer_label.style.fontSize = "10em";
+				scramble_label.style.fontSize = "1em";
+				load_user_styles();
 			};
 
 			$('solve_popup_close').onclick = toggle_popup;
@@ -437,8 +441,7 @@ var ui = (function() {
 
 			$('use_milli').checked = config['use_milli'];
 
-			load_colours();
-
+			load_user_styles();
 
 			timer_label.style.fontSize = config['ui']['timer_label_size'] || "10em";
 			scramble_label.style.fontSize = config['ui']['scramble_label_size'] || "1em";

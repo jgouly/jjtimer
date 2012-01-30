@@ -70,6 +70,14 @@ h2, h3 , h4 {
 	display: none;
 }
 
+#options_popup {
+	height: 98%;
+	overflow-y: scroll;
+	padding-left: 3%;
+	padding-right: 3%;
+	padding-top: 3%;
+}
+
 .popup {
 	z-index: 6;
 	position: absolute;

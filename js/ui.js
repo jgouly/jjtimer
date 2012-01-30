@@ -11,6 +11,7 @@ function t(e, t) { e.innerHTML = t; }
 
 var ui = (function() {
 	function toggle(e) { e.style.display = (e.style.display === "none") ? "inline" : "none"; }
+	function toggle_block(e) { e.style.display = (e.style.display === "none") ? "" : "none"; }
 	function is_visible(e) { return e.style.display !== "none"; }
 
 	var timer_label, times_label, scramble_label, stats_label, options_label, to_hide;
@@ -122,9 +123,8 @@ var ui = (function() {
 
 	function toggle_options_popup() {
 		if(timer.is_running()) return;
-		toggle($('options_popup'));
-		toggle($('gray_out'));
-		centre($('options_popup'));
+		toggle_block($('options_popup'));
+		toggle_block(times_label);
 	}
 
 	function toggle_solve_popup(index) {

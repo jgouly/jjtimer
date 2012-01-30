@@ -50,13 +50,6 @@ h2, h3 , h4 {
 	font-size: 1.2em;
 }
 
-#options_popup {
-	height: 99%;
-	overflow-y: scroll;
-	padding-left: 0.5%;
-	padding-top: 0.5%;
-}
-
 #bottom_bar {
 	text-align: justify;
 	position: absolute;
@@ -82,7 +75,7 @@ h2, h3 , h4 {
 	overflow-y: scroll;
 	padding-left: 3%;
 	padding-right: 3%;
-	padding-top: 3%;
+	padding-top: 1%;
 }
 
 .popup {

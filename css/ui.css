@@ -45,9 +45,16 @@ h2, h3 , h4 {
 #times_label {
 	height: 99%;
 	overflow-y: scroll;
-	padding-left: 5px;
-	padding-top: 5px;
+	padding-left: 0.75%;
+	padding-top: 0.5%;
 	font-size: 1.2em;
+}
+
+#options_popup {
+	height: 99%;
+	overflow-y: scroll;
+	padding-left: 0.5%;
+	padding-top: 0.5%;
 }
 
 #bottom_bar {

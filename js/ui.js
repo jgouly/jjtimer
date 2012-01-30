@@ -437,7 +437,6 @@ var ui = (function() {
 			window.onblur = function() { timer_label.style.color = "gray"; };
 			window.onfocus = function() { timer_label.style.color = ""; };
 			window.onresize = function() {
-				centre($('options_popup'));
 				centre($('solve_popup'));
 				centre($('avg_popup'));
 			}

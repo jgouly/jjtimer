@@ -47,6 +47,7 @@ var timer = function() {
 		reset: function() {
 			state = Waiting;
 			session.reset();
+			solve_time = 0;
 		},
 
 		use_inspection: function() {
@@ -83,7 +84,7 @@ var timer = function() {
 		},
 		
 		get_time: function() {
-			return solve_time || new Date().getTime() - start_time;
+			return solve_time == undefined ? new Date().getTime() - start_time : solve_time;
 		}
 	};
 }();

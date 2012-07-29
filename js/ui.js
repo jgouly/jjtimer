@@ -9,7 +9,7 @@ function load_external(url) {
 function $(id) { return document.getElementById(id); }
 function t(e, t) { e.innerHTML = t; }
 
-var ui = (function() {
+var ui = (function(timer_obj) {
 	function toggle(e) { e.style.display = (e.style.display === "none") ? "inline" : "none"; }
 	function is_visible(e) { return e.style.display !== "none"; }
 
@@ -121,14 +121,14 @@ var ui = (function() {
 	}
 
 	function toggle_options_popup() {
-		if(timer.is_running()) return;
+		if(timer_obj.is_running()) return;
 		toggle($('options_popup'));
 		toggle($('gray_out'));
 		centre($('options_popup'));
 	}
 
 	function toggle_solve_popup(index) {
-		if(timer.is_running()) return;
+		if(timer_obj.is_running()) return;
 		if(index !== null) {
 			$('solve_popup_index').innerHTML = index + 1;
 			$('solve_popup_time').innerHTML = solve_time(session.solves()[index]);
@@ -177,23 +177,23 @@ var ui = (function() {
 	}
 
 	function highlight(start, length, paren_i, paren_j) {
-		if(timer.is_running()) return;
+		if(timer_obj.is_running()) return;
 		if(paren_i === null || paren_j === null) paren_i = paren_j = -1;
 		t(times_label, to_times_list(start, length - 1, paren_i, paren_j));
 	}
 
 	function highlight_current(length, paren_i, paren_j) {
-		if(timer.is_running()) return;
+		if(timer_obj.is_running()) return;
 		if(paren_i === null || paren_j === null) paren_i = paren_j = -1;
 		highlight(session.length() - length, length, paren_i, paren_j);
 	}
 
 	function spacebar_down(ev) {
-		timer.trigger_down(ev);
+		timer_obj.trigger_down(ev);
 	}
 
 	function spacebar_up(ev) {
-		timer.trigger_up(ev);
+		timer_obj.trigger_up(ev);
 	}
 
 	function esc_up(ev) {
@@ -201,7 +201,7 @@ var ui = (function() {
 			toggle_popup();
 		}
 		else {
-			if(timer.is_running()) timer.trigger_down();
+			if(timer_obj.is_running()) timer_obj.trigger_down();
 			ui.reset();
 		}
 	}
@@ -256,7 +256,7 @@ var ui = (function() {
 		},
 
 		on_stop: function() {
-			t(timer_label, human_time(timer.get_time()));
+			t(timer_label, human_time(timer_obj.get_time()));
 			for(var i = 0; i < to_hide.length; i++) {
 				to_hide[i].className = to_hide[i].className.replace("disabled", "");
 			}
@@ -267,7 +267,7 @@ var ui = (function() {
 		toggle_avg_popup: toggle_avg_popup,
 
 		reset: function() {
-			timer.reset();
+			timer_obj.reset();
 			next_scramble();
 			t(timer_label, "0.00");
 			t(times_label, "&nbsp;");
@@ -297,45 +297,45 @@ var ui = (function() {
 			to_hide = document.getElementsByClassName("hide_running");
 
 			$('p2').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				session.toggle_plus_two(null);
 				t(timer_label, solve_time(session.last()));
 			};
 			$('dnf').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				session.toggle_dnf(null);
 				t(timer_label, solve_time(session.last()));
 			};
 
 			$('c_a_5').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				highlight_current(5, null, null);
 			};
 			$('b_a_5').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				var a = session.best_average(5, true);
 				highlight(a['index'], 5, a['best_single_index'], a['worst_single_index']);
 			};
 			$('c_a_12').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				highlight_current(12, null, null);
 			};
 			$('b_a_12').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				var a = session.best_average(12, true);
 				highlight(a['index'], 12, a['best_single_index'], a['worst_single_index']);
 			};
 			$('s_a').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				highlight_current(session.length(), null, null);
 			};
 			$('s_m').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				highlight_current(session.length(), null, null);
 			};
 
 			$('toggle_stats').onclick = function() {
-				if(timer.is_running()) return;
+				if(timer_obj.is_running()) return;
 				toggle($('stats_link'));
 				if(is_visible($('stats_link')))
 					$('toggle_stats').innerHTML = "hide stats";
@@ -351,13 +351,13 @@ var ui = (function() {
 				next_scramble();
 			};
 			$('use_inspection').onchange = function() {
-				timer.toggle_inspection();
+				timer_obj.toggle_inspection();
 				config['use_inspection'] = $('use_inspection').checked;
 			}
 			$('use_milli').onchange = function() {
 				config['use_milli'] = $('use_milli').checked;
 				update_stats();
-				t(timer_label, human_time(timer.get_time()));
+				t(timer_label, human_time(timer_obj.get_time()));
 			}
 			$('save_btn').onclick = session.save;
 			$('load_btn').onclick = function() { session.load(); };
@@ -436,7 +436,7 @@ var ui = (function() {
 			}
 			if(config['use_inspection']) {
 				$('use_inspection').checked = true;
-				timer.toggle_inspection();
+				timer_obj.toggle_inspection();
 			}
 
 			$('use_milli').checked = config['use_milli'];
@@ -456,6 +456,6 @@ var ui = (function() {
 			}
 		}
 	};
-})();
+})(timer);
 window['ui'] = ui;
 window.onload = ui.init;
